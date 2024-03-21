@@ -91,6 +91,49 @@ eg:
 * `SELECT` * `FROM` customer `WHERE` first_name `LIKE` 'A%' `AND` last_name `NOT LIKE` 'B%' `ORDER BY` last_name;
 
 
+<a name ="groupby"></a>   
+# 2. GROUP BY Statements
+
+* GROUP BY will allow us to aggregate data and apply functions to better understand how data is distributed per category.
+
+### Aggregation Functions
+* Common Aggregate Functions: *AVG(), COUNT(), MAX(), MIN(), SUM()*
+
+* `SELECT MIN`(replacement_film) `FROM` film;
+* `SELECT MAX`(replacement_film) `FROM` film;
+* `SELECT MAX`(replacement_film), `MIN`(replacement_film) `FROM` film;
+* `SELECT COUNT`(*) `FROM` film;
+* `SELECT AVG`(replacement_cost) `FROM` film;
+* `SELECT ROUND(AVG`(replacement_cost), 2) `FROM` film;
+* `SELECT SUM`(replacement_cost) `FROM` film;
+
+### GROUP BY
+General Syntax:
+* The GROUP BY clause must appear right after  a FROM or WHERE statement.
+    * `SELECT` category_col, `AGG`(data_col) `FROM` table `GROUP BY` category_col;
+    * `SELECT` category_col, `AGG`(data_col) `FROM` table `WHERE` category_col!='A' `GROUP BY` category_col;
+* In the SELECT statement, columns must either have an aggregate function or be in the GROUP BY call.
+    * `SELECT` company, division, `SUM`(sales) `FROM` finance_table `GROUP BY` company, division;
+* If you want to sort results based on the aggregate, make sure to reference the entire function
+    * `SELECT` company, `SUM`(sales) `FROM` finance_table `GROUP BY` company `ORDER BY SUM`(sales);
+
+eg: 
+* `SELECT` customer_id `FROM` payment `GROUP BY` customer_id;
+* `SELECT` customer_id, `SUM`(amount) `FROM` payment `GROUP BY` customer_id `ORDER BY` `SUM`(amount);
+* `SELECT` customer_id, `COUNT`(amount) `FROM` payment `GROUP BY` customer_id `ORDER BY COUNT`(amount) `DESC`;
+* `SELECT` customer_id, staff_id, `SUM`(amount) `FROM` payment `GROUP BY` staff_id, customer_id;
+* `SELECT` `DATE`(payment_date), `SUM`(amount) `FROM` payment `GROUP BY` `DATE`(payment_date) `ORDER BY SUM`(amount);
+* `SELECT` rating, `AVG`(replacement_cost) `FROM` film `GROUP BY` rating;
+
+### HAVING: Allows us to filter after an aggregation has already taken place
+* HAVING allows us to use the aggregate result as a filter along with a GROUP BY
+    * `SELECT` company, `SUM`(sales) `FROM` finance_table `WHERE` company!='Google' `GROUP BY` company `HAVING` `SUM`(sales)>1000
+
+eg:
+* `SELECT` customer_id, `SUM`(amount) `FROM` payment `GROUP BY` customer_id `HAVING SUM`(amount) > 100;
+* `SELECT` store_id, `COUNT`(* ) `FROM` customer `GROUP BY` store_id `HAVING COUNT`(* ) > 300;
+
+
 <a name="create"></a>
 # 5. Creating Databases and Tables
 
