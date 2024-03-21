@@ -9,6 +9,88 @@ This repository is a quick reference for SQL queries, covering fundamentals, Gro
 5. [ Creating Databases and Tables ](#create)
 6. [ Conditional Expressions and Procedure ](#conditional)
 
+<a name ="fundamentals"></a>
+# 1. SQL Statement Fundamentals
+
+### SELECT Statement
+General Syntax:
+* `SELECT` column_name `FROM` table_name;
+
+eg:
+* `SELECT` * `FROM` actor;
+* `SELECT` first_name, last_name `FROM` actor;
+
+### SELECT DISTINCT
+* `SELECT DISTINCT` choice `FROM` color_table;
+* `SELECT DISTINCT`(release_year) `FROM` film;
+* `SELECT DISTINCT`(rental_rate) `FROM` film;
+
+### COUNT
+* `SELECT COUNT`(amount) `FROM` payment;
+* `SELECT COUNT`(*) `FROM` table;
+* `SELECT COUNT(DISTINCT`(name)) `FROM` table;
+
+### SELECT WHERE
+Basic syntax: 
+* `SELECT` column1, column2 `FROM` table `WHERE` conditions;
+
+eg:
+* `SELECT` * `FROM` customer `WHERE` first_name = 'Jared';
+* `SELECT` * `FROM` film `WHERE` rental_rate > 4;
+* `SELECT` * `FROM` film `WHERE` rental_rate > 4 `AND` replacement_cost >= 19.99;
+* `SELECT` title `FROM` film `WHERE` rental_rate > 4 `AND` replacement_cost >= 19.99 `AND` rating = 'R';
+* `SELECT COUNT`(*) `FROM` film `WHERE` rental_rate > 4 `AND` replacement_cost >= 19.99 `AND` rating = 'R';
+* `SELECT COUNT`(*) `FROM` film `WHERE` rating = 'R' `OR` rating = 'PG-13';
+* `SELECT` * `FROM` film `WHERE` rating!= 'R';
+
+### ORDER BY
+
+Basic Syntax:
+* `SELECT` column1, column2 `FROM` table `ORDER BY` column1 `ASC/DESC`;
+
+eg:
+* `SELECT` * `FROM` customer `ORDER BY` first_name;
+* `SELECT` * `FROM` customer `ORDER BY` first_name `DESC`;
+* `SELECT` store_id, first_name, last_name `FROM` customer `ORDER BY` store_id, first_name;
+* `SELECT` store_id, first_name, last_name `FROM` customer `ORDER BY` store_id `DESC`, first_name `ASC`;
+
+### LIMIT: Useful in combination with ORDER BY and goes at the very end of a query request and is the last command to be executed
+
+eg:
+* `SELECT` * `FROM` payment `LIMIT` 1;
+* `SELECT` * `FROM` payment `ORDER BY` payment_date `DESC LIMIT` 5;
+* `SELECT` * `FROM` payment `WHERE` amount != 0.00 `ORDER BY` payment_date `DESC LIMIT` 5; 
+
+### BETWEEN: Used to match a value against a range of values
+
+eg:
+* `SELECT` * `FROM` payment `WHERE` amount `BETWEEN` 8 `AND` 9;
+* `SELECT` `COUNT`(*) `FROM` payment `WHERE` amount `NOT BETWEEN` 8 `AND` 9;
+* `SELECT` * `FROM` payment `WHERE` payment_date `BETWEEN` '2007-02-01' `AND` '2007-02-15';
+
+### IN: Use the IN operator to create a condition that checks to see if a value is included in a list of multiple options
+
+* `SELECT` * `FROM` payment `WHERE` amount `IN` (0.99, 1.98, 1.99);
+* `SELECT` `COUNT`(*) `FROM` payment `WHERE` amount `NOT IN` (0.99, 1.98, 1.99);
+* `SELECT` * `FROM` customer `WHERE` first_name `IN` ('John', 'Jake', 'Julie');
+
+### LIKE and ILIKE: Pttern Matching
+
+* LIKE: Allows us to perform pattern matching against string data with the use of wildcard characters:
+    - *Percent %* : Matches any sequence of characters
+    - *Underscore _* : Matches any single character
+
+* LIKE is case-sensitive, ILIKE is case-insensitive
+
+eg:
+* `SELECT` * `FROM` customer `WHERE` first_name `LIKE` 'J%';
+* `SELECT` * `FROM` customer `WHERE` first_name `LIKE` 'J%' `AND` last_name `LIKE` 'S%';
+* `SELECT` * `FROM` customer `WHERE` first_name `ILIKE` 'j%' AND last_name `ILIKE` 's%';
+* `SELECT` * `FROM` customer `WHERE` first_name `LIKE` '%er%';
+* `SELECT` * `FROM` customer `WHERE` first_name `LIKE` '_her%';
+* `SELECT` * `FROM` customer `WHERE` first_name `LIKE` 'A%' `AND` last_name `NOT LIKE` 'B%' `ORDER BY` last_name;
+
+
 <a name="create"></a>
 # 5. Creating Databases and Tables
 
@@ -145,4 +227,3 @@ eg:
 * `CREATE TABLE` employees(emp_id `SERIAL PRIMARY KEY`, first_name `VARCHAR(50) NOT NULL`, last_name `VARCHAR(50) NOT NULL`, birthdate `DATE CHECK` (birthdate > '1900-01-01'), hire_date `DATE CHECK` (hire_date > birthdate), salary `INTEGER CHECK` (salary > 0));
 
 <img src="assets/SQL Cheat Sheet.png" alt="sql cheat sheet" style="width: 100%;">
-
