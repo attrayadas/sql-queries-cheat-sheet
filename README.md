@@ -144,3 +144,5 @@ General Syntax: <br/>
 eg:
 * `CREATE TABLE` employees(emp_id `SERIAL PRIMARY KEY`, first_name `VARCHAR(50) NOT NULL`, last_name `VARCHAR(50) NOT NULL`, birthdate `DATE CHECK` (birthdate > '1900-01-01'), hire_date `DATE CHECK` (hire_date > birthdate), salary `INTEGER CHECK` (salary > 0));
 
+<img src="assets/SQL Cheat Sheet.png" alt="sql cheat sheet" style="width: 100%;">
+
