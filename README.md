@@ -52,7 +52,6 @@ eg:
 * `CREATE TABLE` account_job(user_id `INTEGER REFERENCES` account(user_id), job_id `INTEGER REFERENCES` job(job_id), hire_date `TIMESTAMP`);
 
 ### INSERT:
-
 General Syntax: <br/>
 * `INSERT INTO` table (column1, column2, ...) `VALUES`(value1, value2, ...), (value1, value2, ...), ...;
 
@@ -65,7 +64,6 @@ eg:
 * `INSERT INTO` account_job(user_id, job_id, hire_date) `VALUES`(1, 1, `CURRENT_TIMESTAMP`);`
 
 ### UPDATE:
-
 General Syntax: <br/>
 * `UPDATE` table `SET` column1=value1, column2=value2,... `WHERE` condition;
 
@@ -81,7 +79,6 @@ Returning affected rows: <br/>
 * `UPDATE` account `SET` last_login = `CURRENT_TIMESTAMP RETURNING` email, created_on, last_login;
 
 ### DELETE:
-
 General Syntax: <br/>
 * `DELETE FROM` table `WHERE` row_id=1;
 
@@ -92,7 +89,6 @@ Delete all rows from a table: <br/>
 * `DELETE FROM` table;
 
 ### ALTER Table:
-
 The ALTER clause allows for changes to an existing table structure, such as:
 - Adding, dropping, or renaming columns
 - Changing a column's data type
@@ -120,7 +116,6 @@ eg:
 * `ALTER TABLE` new_info `ALTER COLUMN` people `DROP NOT NULL`;
 
 ### DROP Table:
-
 DROP allows for the complete removal of a column in a table
 
 General Syntax: <br/> 
@@ -140,7 +135,6 @@ eg:
 * `ALTER TABLE` new_info `DROP COLUMN IF EXISTS` people;
 
 ### CHECK Constraint:
-
 The CHECK constraint allows us to create more customized constraints that adhere to a certain condition.
 eg: make sure all inserted integer values fall below a certain threshold.
 
