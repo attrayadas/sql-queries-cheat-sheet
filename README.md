@@ -131,6 +131,13 @@ https://medium.com/@josemarcialportilla/review-of-sql-joins-ac5463dc71c9#.ayjcua
       * RIGHT OUTER JOIN with WHERE
   * UNION
 
+***INNER JOIN---*** grabs things that are common to both tables <br/>
+***FULL OUTER JOIN ---*** grabs everything from both tables <br/>
+***FULL OUTER JOIN with WHERE ---*** grabs only those rows that are exclusive to table A and rows exclusive to table B<br/>
+***LEFT OUTER JOIN ---*** grabs everything from left-hand table. (that includes rows unique to left table & rows that are in match with right table) we fill in the right hand table information where there is a match on the column defined.<br/>
+***LEFT OUTER JOIN with WHERE ---*** grabs only rows that are unique to left-hand table.<br/>
+***RIGHT OUTER JOIN---*** grabs everything from right-hand table.  we can also achieve this by using LEFT JOIN and then switch the order of tables based on our need.<br/>
+
 ### AS
 
 * `SELECT` column `AS` new_name `FROM` table;
