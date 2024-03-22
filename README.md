@@ -88,14 +88,14 @@ This repository is a quick reference for SQL queries, covering fundamentals, Gro
 
 ### GROUP BY
 General Syntax:
->The GROUP BY clause must appear right after a FROM or WHERE statement.<br/>
-  >`SELECT` category_col, `AGG`(data_col) `FROM` table `GROUP BY` category_col;
+* The GROUP BY clause must appear right after a FROM or WHERE statement.<br/>
+  >`SELECT` category_col, `AGG`(data_col) `FROM` table `GROUP BY` category_col;</br>
   >`SELECT` category_col, `AGG`(data_col) `FROM` table `WHERE` category_col!='A' `GROUP BY` category_col;
  
->In the SELECT statement, columns must either have an aggregate function or be in the GROUP BY call.<br/>
+* In the SELECT statement, columns must either have an aggregate function or be in the GROUP BY call.<br/>
   >`SELECT` company, division, `SUM`(sales) `FROM` finance_table `GROUP BY` company, division;
 
-> If you want to sort results based on the aggregate, make sure to reference the entire function<br/>
+* If you want to sort results based on the aggregate, make sure to reference the entire function<br/>
   >`SELECT` company, `SUM`(sales) `FROM` finance_table `GROUP BY` company `ORDER BY SUM`(sales);
 
 * `SELECT` customer_id `FROM` payment `GROUP BY` customer_id;
