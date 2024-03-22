@@ -358,8 +358,48 @@ The CHECK constraint allows us to create more customized constraints that adhere
 eg: make sure all inserted integer values fall below a certain threshold.
 
 >`CREATE TABLE` example(ex_id `SERIAL PRIMARY KEY`, age `SMALLINT CHECK` (age > 21), parent_age `SMALLINT CHECK`(parent_age > age));
-
-
 * `CREATE TABLE` employees(emp_id `SERIAL PRIMARY KEY`, first_name `VARCHAR(50) NOT NULL`, last_name `VARCHAR(50) NOT NULL`, birthdate `DATE CHECK` (birthdate > '1900-01-01'), hire_date `DATE CHECK` (hire_date > birthdate), salary `INTEGER CHECK` (salary > 0));
+
+<a name="conditional"></a>
+# 6. Conditional Expressions
+
+### CASE
+
+> CASE WHEN condition1 THEN result1 WHEN condition2 THEN result2 ELSE some_other_result END;
+* `SELECT` a, `CASE WHEN` a = 1 `THEN` 'one' `WHEN` a = 2 `THEN` 'two' `ELSE` 'other' `AS` label `END` from test;
+> CASE expression WHEN value1 THEN result1 WHEN value2 THEN result2 ELSE some_other_result END;
+* `SELECT` a, `CASE` a `WHEN` 1 `THEN` 'one' `WHEN` 2 `THEN` 'two' `ELSE` 'other' `END FROM` test;
+* `SELECT` customer_id, `CASE WHEN` (customer_id<=100) `THEN` 'Premium' `WHEN` (customer_id `BETWEEN` 100 `AND` 200) `THEN` 'Plus' `ELSE` 'Normal' `END AS` customer_class `FROM` customer;
+* `SELECT` customer_id, `CASE` customer_id `WHEN` 2 `THEN` 'Winner' `WHEN` 5 `THEN` 'Second Place' `ELSE` 'Normal' `END` `AS` raffle_results `FROM` customer ;
+* `SELECT` `SUM`(`CASE` rental_rate `WHEN` 0.99 `THEN` 1 `ELSE` 0 `END`) `AS` bargains, `SUM`(`CASE` rental_rate `WHEN` 2.99 `THEN` 1 `ELSE` 0 `END`) `AS` regular, `SUM`(`CASE` rental_rate `WHEN` 4.99 `THEN` 1 `ELSE` 0 `END`) `AS` premium `FROM` film;
+
+### COALESCE
+* Accepts an unlimited number of arguments. It returns the first argument that is not null. If all arguments are null, the COALESCE function will return null
+> COALESCE(arg_1, arg_2, ..., arg_n)
+
+* `SELECT` item, (price - `COALESCE`(discount, 0)) `AS` final `FROM` table;
+
+### CAST
+* CAST operator lets you convert from one data type into another
+> `SELECT` `CAST`('5' `AS INTEGER`);
+* `SELECT` `CAST`(date `AS TIMESTAMP`) `FROM` table;
+* `SELECT` `CAST`('5' `AS INTEGER`) `AS` new_int;
+* `SELECT` `CHAR_LENGTH`(`CAST`(inventory_id `AS VARCHAR`)) `FROM` rental;
+
+### NULLIF
+* The NULLIF function takes in 2 inputs and returns NULL if both are equal, otherwise it returns the first argument passed
+> NULLIF(arg1, arg2)
+
+### Views
+* A view is a database object that is of a stored query.
+* A view can be accessed as a virtual table in PostgreSQL
+* View does not store data physically, it simply stores the query.
+
+* `CREATE VIEW` customer_info `AS SELECT` first_name, last_name, address `FROM` customer `INNER JOIN` address `ON` customer.address_id = address.address_id;
+  Now, `SELECT` * `FROM` customer_info;
+* To edit a view:
+  `CREATE OR REPLACE VIEW` customer_info `AS SELECT` first_name, last_name, address, district `FROM` customer `INNER JOIN` address `ON` customer.address_id = address.address_id;
+* To rename a view: `ALTER VIEW` customer_info `RENAME TO` customer_address;
+* To drop a view: `DROP VIEW` customer_address;
 
 <img src="assets/SQL Cheat Sheet.png" alt="sql cheat sheet" style="width: 100%;">
