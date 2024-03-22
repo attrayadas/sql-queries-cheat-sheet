@@ -91,7 +91,7 @@ General Syntax:
 * The GROUP BY clause must appear right after a FROM or WHERE statement.<br/>
   >`SELECT` category_col, `AGG`(data_col) `FROM` table `GROUP BY` category_col;</br>
   >`SELECT` category_col, `AGG`(data_col) `FROM` table `WHERE` category_col!='A' `GROUP BY` category_col;
- 
+
 * In the SELECT statement, columns must either have an aggregate function or be in the GROUP BY call.<br/>
   >`SELECT` company, division, `SUM`(sales) `FROM` finance_table `GROUP BY` company, division;
 
@@ -183,6 +183,57 @@ https://medium.com/@josemarcialportilla/review-of-sql-joins-ac5463dc71c9#.ayjcua
 ### UNION: Used to combine the result-set of two or more SELECT statements (concatenate two results together)
 >`SELECT` column_name(s) `FROM` table1 `UNION` `SELECT` column_name(s) `FROM` table2;
 * `SELECT` * `FROM` Sales2021_Q1 `UNION SELECT` * `FROM` Sales2021_Q2 `ORDER BY` name;
+
+
+<a name ="advanced"></a>
+# 4. Advanced SQL Commands
+### Timestamps and Extract: allows you to extract sub-component of a date value
+* EXTRACT() eg: EXTRACT(YEAR FROM date_col)
+  * YEAR
+  * MONTH
+  * DAY
+  * WEEK
+  * QUARTER
+* AGE() :calculates and returns the current age given a timestamp
+* TO_CHAR(): general function to convert data types to text. eg: TO_CHAR(date_col, 'mm-dd-yyyy')
+
+* `SHOW ALL`;
+* `SHOW TIMEZONE`;
+* `SELECT NOW();` // Shows current timestamptz
+* `SELECT TIMEOFDAY();`
+* `SELECT CURRENT_DATE;`
+* `SELECT EXTRACT(MONTH FROM` payment_date) `AS` pay_month `FROM` payment;
+* `SELECT AGE`(payment_date) `FROM` payment;
+* `SELECT TO_CHAR`(payment_date, 'MONTH :: YYYY') `FROM` payment;
+
+### Mathematical Functions and Operators
+
+* `SELECT` `ROUND`(rental_rate/replacement_cost, 4)*100 `AS` percent_cost `FROM` film;
+* `SELECT` 0.1 * replacement_cost `AS` deposit `FROM` film;
+
+### String Functions and Operators
+* `SELECT` `LENGTH`(first_name) `FROM` customer;
+* `SELECT` first_name || last_name `FROM` customer;
+* `SELECT` first_name || ' ' || last_name `AS` full_name `FROM` customer;
+* `SELECT` first_name || last_name || '@gmail.com' `FROM` customer;
+* `SELECT` `LOWER`(`LEFT`(first_name, 1)) || `LOWER`(last_name) || '@gmail.com' `FROM` customer;
+* `SELECT` first_name, last_name, `LOWER`(`LEFT`(first_name, 1)) || `LOWER`(last_name) || '@gmail.com'  `AS` custom_email `FROM` customer;
+
+### Subquery
+* `SELECT` student, grade `FROM` test_scores WHERE grade > (`SELECT` `AVG`(grade) `FROM` test_scores);
+* `SELECT` student, grade `FROM` test_scores WHERE student IN (`SELECT` student `FROM` honor_roll_table);
+* `SELECT` * `FROM` film `WHERE` rental_rate > (`SELECT` `AVG`(rental_rate) `FROM` film);
+* `SELECT` film_id, title `FROM` film `WHERE` film_id `IN`(`SELECT` inventory.film_id `FROM` rental `INNER JOIN` inventory `ON` inventory.inventory_id = rental.inventory_id `WHERE` return_date `BETWEEN` '2005-05-29' `AND` '2005-05-30');
+* `SELECT` first_name, last_name `FROM` customer `AS` c `WHERE EXISTS`(`SELECT` * `FROM` payment `AS` p `WHERE` p.customer_id = c.customer_id `AND` amount > 11);
+
+### Self-Join: A query in which a table is joined to itself
+
+* Self-joins are useful for comparing values in a column of rows within the same table
+* Self-joins can be viewed as a join of two copies of the same table
+* When using a self join it is necessary to use an alias for the table, otherwise the table names would be ambigious
+> SELECT tableA.col, tableB.col FROM table AS tableA JOIN table AS tableB ON tableA.some_col = tableB.other_col;
+* `SELECT` emp.name, report.name `FROM` employees `AS` emp `JOIN` employees `AS` report `ON` emp.emp_id = report.report_id;
+* `SELECT` f1.title, f2.title, f1.length `FROM` film `AS` f1 `INNER JOIN` film `AS` f2 `ON` f1.film_id != f2.film_id `AND` f1.length = f2.length;
 
 
 <a name="create"></a>
